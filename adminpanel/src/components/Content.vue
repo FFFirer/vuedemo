@@ -18,6 +18,8 @@
 </style>
 
 <script>
+import testapi from '@/api/ctrip'
+
 export default {
     name: 'Content',
     computed : {
@@ -35,6 +37,13 @@ export default {
         btnClick: function(){
             alert(123)
         }
+    },
+    mounted: function() {
+        this.$nextTick(function(){
+            var data = testapi.getFlights();
+            console.log("get flights");
+            console.log(data);
+        })
     }
 }
 </script>
