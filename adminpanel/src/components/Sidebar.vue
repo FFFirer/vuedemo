@@ -2,7 +2,7 @@
     <div id="sidebar" v-bind:class="{active: isActive}">
         <div class="sidebar-header">
             <h3>NetSpider Panel</h3>
-            <span>user name</span>
+            <span>user name&nbsp;</span>
             <a href="#" style="color:white"><i class="fa fa-sign-out"></i></a>
         </div>
 

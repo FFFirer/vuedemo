@@ -8,7 +8,52 @@
             </div>
         </nav>
         <div class="content-view">
-
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            航空公司
+                        </th>
+                        <th>
+                            航班
+                        </th>
+                        <th>
+                            出发时间
+                        </th>
+                        <th>
+                            出发地
+                        </th>
+                        <th>
+                            目的地
+                        </th>
+                        <th>
+                            机型
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="flight in flightdata" :key="flight.Id">
+                        <td>
+                            {{ flight.AirlineName }}
+                        </td>
+                        <td>
+                            {{ flight.FlightNumber }}
+                        </td>
+                        <td>
+                            {{ flight.departureDate }}
+                        </td>
+                        <td>
+                            {{ flight.departureCityName }} - {{ flight.departureAirportName }}
+                        </td>
+                        <td>
+                            {{ flight.arrivalCityName }} - {{ flight.arrivalAirportName }}
+                        </td>
+                        <td>
+                            {{ flight.CraftTypeName }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </template>
@@ -22,6 +67,11 @@ import testapi from '@/api/ctrip'
 
 export default {
     name: 'Content',
+    data() {
+        return {
+            flightdata: []
+        }
+    },
     computed : {
         isActive: function () {
             return this.$store.state.sidebarIsActive;
@@ -40,9 +90,15 @@ export default {
     },
     mounted: function() {
         this.$nextTick(function(){
-            var data = testapi.getFlights();
-            console.log("get flights");
-            console.log(data);
+            testapi.getFlights('abc', data => {
+                console.log(data);
+                if(data != null && data.isSuccess == true){
+                    this.flightdata = data.data
+                }
+                else{
+                    this.flightdata = []
+                }
+            });
         })
     }
 }
