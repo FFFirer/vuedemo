@@ -61,9 +61,15 @@ a[data-toggle='collapse'] {
     padding-left: 10px;
 }
 
+/* 一级菜单 */
 ul li a {
     font-size: 0.9em !important;
     padding-left: 30px !important;
+}
+
+/* 二级菜单 */
+ul li ul li a {
+    padding-left: 45px !important;
 }
 
 #sidebar ul li a {
@@ -122,4 +128,33 @@ ul.collapse li a {
     #content.active {
         width: calc(100% - 250px);
     }
+}
+
+/* form control */
+.custom-form-group {
+    margin-bottom: 10px;
+}
+
+.custom-form-group .form-control {
+    display: inline-block;
+    width: 70%;
+}
+
+.custom-form-group label {
+    width: 30%;
+}
+
+/* @media(max-width: 768px) {
+    .custom-form-group .form-control {
+        display: inline-block;
+        width: 80%;
+    }
+    
+    .custom-form-group label {
+        width: 20%;
+    }
+} */
+
+.custom-form-group button {
+    float: right;
 }

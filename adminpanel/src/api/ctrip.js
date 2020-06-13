@@ -25,9 +25,9 @@ axios.defaults.baseURL = '/spider'
 //     "token": "624e8a966a3b5d3298f64dd528ed4ef9"
 // };
 
-testapi.getFlights = function (token, callback) {
+testapi.getFlights = function (time, d, a, callback) {
     console.log('ready to get')
-    axios.get('/api/ctrip/plan?deaprtureTime=2020-10-02&dcity=上海&acity=乌鲁木齐')
+    axios.get('/api/ctrip/plan?deaprtureTime=' + time + '&dcity=' + d + '&acity=' + a)
     .then(response => {
         let result = null;
         // console.log(response);

@@ -8,24 +8,15 @@
 
         <ul class="list-unstyled components">
             <li>
-                <a href="#dropdownmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">测试ceshic</a>
+                <router-link to="/ctrip">首页</router-link>
+            </li>
+            <li>
+                <a href="#dropdownmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">携程 | Ctrip</a>
                 <ul class="collapse list-unstyled" id="dropdownmenu">
                     <li>
-                        <a href="#">测试1</a>
-                    </li>
-                    <li>
-                        <a href="#">测试1</a>
+                        <router-link to="/ctrip/flightsummary">航班信息</router-link>
                     </li>
                 </ul>
-            </li>
-            <li>
-                <a href="#">Test 1</a>
-            </li>
-            <li>
-                <a href="#">Test 2</a>
-            </li>
-            <li>
-                <a href="#">Test 3</a>
             </li>
         </ul>
     </div>

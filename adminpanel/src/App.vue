@@ -1,19 +1,19 @@
 <template>
   <div id="app">
     <sidebar-demo></sidebar-demo>
-    <content-demo></content-demo>
+    <main-content></main-content>
   </div>
 </template>
 
 <script>
 import Sidebar from './components/Sidebar.vue'
-import Content from './components/Content.vue'
+import mainContent from './components/content'
 
 export default {
   name: 'App',
   components: {
     'sidebar-demo': Sidebar,
-    'content-demo': Content
+    'main-content': mainContent
   }
 }
 </script>
