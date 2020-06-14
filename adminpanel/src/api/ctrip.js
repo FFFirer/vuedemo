@@ -26,7 +26,7 @@ axios.defaults.baseURL = '/spider'
 // };
 
 testapi.getFlights = function (time, d, a, callback) {
-    console.log('ready to get')
+    // console.log('ready to get')
     axios.get('/api/ctrip/plan?deaprtureTime=' + time + '&dcity=' + d + '&acity=' + a)
     .then(response => {
         let result = null;
@@ -35,12 +35,28 @@ testapi.getFlights = function (time, d, a, callback) {
             result = response.data;
         }
 
-        // console.log(response.data);
+        console.log(response.data);
         typeof callback === 'function' && callback.call(window, result);
         return result;
     })
     .catch(function (err) {
         console.error(err)
+    });
+}
+
+testapi.getFlightPriceData = function(flightNumber, time, callback) {
+    axios.get('/api/ctrip/pricetimeline/' + flightNumber + '/' + time)
+    .then(response => {
+        let result = null;
+        if(response.status === 200){
+            result = response.data;
+        }
+        console.log(response.data)
+        typeof callback === 'function' && callback.call(window, result);
+        return result;
+    })
+    .catch(function (err) {
+        console.log(err);
     });
 }
 

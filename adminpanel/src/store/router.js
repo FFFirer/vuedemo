@@ -1,4 +1,5 @@
 import flightsummary from '../components/flightsummary.vue'
+import flightdetail from '../components/flightdetail.vue'
 import welcome from '../components/welcome.vue'
 // import content from '../components/content.vue'
 import VueRouter from 'vue-router'
@@ -19,6 +20,14 @@ const routers = [
     {
         path: '/ctrip/flightsummary',
         component: flightsummary
+    },
+    {
+        path: '/ctrip/flightdetail',
+        component: flightdetail
+    },
+    {
+        path: '/ctrip/flightdetail/:flightnumber/:departuredate',
+        component: flightdetail
     }
 ];
 

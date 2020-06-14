@@ -16,6 +16,9 @@
                     <li>
                         <router-link to="/ctrip/flightsummary">航班信息</router-link>
                     </li>
+                    <li>
+                        <router-link to="/ctrip/flightdetail">航班详情</router-link>
+                    </li>
                 </ul>
             </li>
         </ul>

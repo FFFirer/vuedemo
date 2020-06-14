@@ -45,6 +45,9 @@
                             <th>
                                 机型
                             </th>
+                            <th>
+                                操作
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -69,6 +72,9 @@
                             </td>
                             <td>
                                 {{ flight.CraftTypeName }}
+                            </td>
+                            <td>
+                                <router-link to="/ctrip/flightdetail/">查看详情</router-link>
                             </td>
                         </tr>
                     </tbody>
