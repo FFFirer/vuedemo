@@ -17,7 +17,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <div class="priceChart">
+                <div id="priceChart">
 
                 </div>
             </div>
@@ -26,12 +26,18 @@
 </template>
 
 <style>
-
+#priceChart {
+    width: 100%;    
+    height: 60vh;
+    /* background: #02eef7; */
+}
 </style>
 
 <script>
     import echarts from 'echarts'
     import ctripapi from '../api/ctrip.js'
+
+    // var priceChart = echarts.init(document.getElementById('priceChart'));
 
     export default {
         name: 'flightdetail',
@@ -41,48 +47,54 @@
                 flightNumber: "",
                 departureDate: "",
                 yAxisData: [],
-                xAxisData: []
+                xAxisData: [],
+                priceChart: {}
             }
         },
         mounted: function () {
+            this.priceChart = echarts.init(document.getElementById('priceChart'));
+            this.initChart();
+            console.log('init chart');
             if (this.$route.params.flightnumber != null && this.$route.params.departuredate != null) {
                 this.flightNumber = this.$route.params.flightnumber;
                 this.departureDate = this.$route.params.departuredate;
-                this.query();
+                this.setChartData();
             }
         },
         methods: {
             getLineData: function () {
-                console.log(this.flightNumber);
-                console.log(this.departureDate);
-                ctripapi.getFlightPriceData(this.flightNumber, this.departureDate, data => {
-                    if (data != null && data.isSuccess) {
-                        this.priceData = data.data;
-                        console.log(data.data);
-                    } else {
-                        this.priceData = [];
-                    }
+                return ctripapi.getFlightPriceData(this.flightNumber, this.departureDate)
+                .then(data => {
+                    this.priceData = data.data;
+                });
+            },
+            setChartData: function () {
+                this.priceChart.setOption({
+                    xAxis : {
+                        data: this.xAxisData
+                    },
+                    series: [
+                        {
+                            data: this.yAxisData
+                        }
+                    ]
                 })
+                console.log('set data');
             },
             initChart: function () {
-                let priceChart = echarts.init(document.getElementById('priceChart'));
-                priceChart.setOptions({
-                    title: {
-                        text: '价格折线图'
-                    },
+                this.priceChart.setOption({
                     color: ['#6284d3'],
                     grid: {
                         show: true,
-                        left: '3%',
-                        right: '3%',
-                        bottom: '3%',
+                        left: '10%',
+                        right: '10%',
+                        bottom: '5%',
                         containLabel: true,
                         backgroundColor: '#E7F1F5'
                     },
                     xAxis: [{
                         type: 'category',
                         name: '出发时间',
-                        data: this.xAxisData,
                         axisTick: {
                             alignWithLabel: true
                         },
@@ -102,41 +114,34 @@
                                 shadowBlur: 10,
                                 shadowOffsetY: 10
                             }
-                        },
-                        areaStyle: {
-                            normal: {
-                                color: new echarts.graphic.LineGradient(0, 0, 0, 1, [{
-                                        offset: 0,
-                                        color: '#E7F1F5'
-                                    },
-                                    {
-                                        offset: 1,
-                                        color: '#E7F1F5'
-                                    }
-                                ])
-                            }
-                        },
-                        data: this.yAxisData
+                        }
                     }]
                 });
+                
                 setTimeout(() => {
                     window.addEventListener('resize', () => {
-                        priceChart.resize();
+                        this.priceChart.resize();
                     })
                 }, 500);
             },
-            query: function () {
-                this.getLineData();
-                console.log(this.priceData);
+            query: async function () {
+                this.priceChart.showLoading();
+
+                this.getLineData().then(() => {
                 this.xAxisData = [];
                 this.yAxisData = [];
-                // if (this.priceData.length > 0) {
-                //     for (var index in this.priceData) {
-                //         this.xAxisData.push(this.priceData[index].CreateTime);
-                //         this.yAxisData.push(this.priceData[index].LowestPrice);
-                //     }
-                // }
-                this.initChart();
+                console.log('priceData: '+ this.priceData)
+                if (this.priceData.length > 0) {
+                    for (var index in this.priceData) {
+                        this.xAxisData.push(this.priceData[index].CreateTime);
+                        this.yAxisData.push(this.priceData[index].LowestPrice);
+                    }
+                }
+                });
+
+                
+                this.priceChart.hideLoading();
+                this.setChartData();
             }
         }
     }

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import baseApi from './baseApi.js'
 
 let testapi = {};
 
@@ -44,20 +45,16 @@ testapi.getFlights = function (time, d, a, callback) {
     });
 }
 
-testapi.getFlightPriceData = function(flightNumber, time, callback) {
-    axios.get('/api/ctrip/pricetimeline/' + flightNumber + '/' + time)
-    .then(response => {
-        let result = null;
-        if(response.status === 200){
-            result = response.data;
-        }
-        console.log(response.data)
-        typeof callback === 'function' && callback.call(window, result);
-        return result;
-    })
-    .catch(function (err) {
-        console.log(err);
-    });
+testapi.getFlightPriceData = function(flightNumber, time) {
+    var url = '/api/ctrip/pricetimeline/' + flightNumber + '/' + time;
+    return baseApi.get(url, {});
+    // return axios.get('/api/ctrip/pricetimeline/' + flightNumber + '/' + time)
+    // .then(response => {
+    //     resolve(response.data);
+    // })
+    // .catch(function (err) {
+    //     console.log(err);
+    // });
 }
 
 export default testapi;
