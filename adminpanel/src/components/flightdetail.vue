@@ -55,24 +55,42 @@
             this.priceChart = echarts.init(document.getElementById('priceChart'));
             this.initChart();
             console.log('init chart');
-            if (this.$route.params.flightnumber != null && this.$route.params.departuredate != null) {
-                this.flightNumber = this.$route.params.flightnumber;
-                this.departureDate = this.$route.params.departuredate;
-                this.setChartData();
+            if (this.$route.query.flightnumber != undefined && this.$route.query.departuredate != undefined) {
+                this.flightNumber = this.$route.query.flightnumber;
+                this.departureDate = this.$route.query.departuredate;
+                this.query();
             }
         },
         methods: {
             getLineData: function () {
-                return ctripapi.getFlightPriceData(this.flightNumber, this.departureDate)
+                ctripapi.getFlightPriceData(this.flightNumber, this.departureDate)
                 .then(data => {
-                    this.priceData = data.data;
+                    if(data.data.length > 0){
+                        this.xAxisData = [];
+                        this.yAxisData = [];
+                        for (var index in data.data){
+                            this.xAxisData.push(data.data[index].CreateTime);
+                            this.yAxisData.push(data.data[index].LowestPrice);
+                        }
+                    }
+                }).then(()=>{
+                    this.setChartData();
                 });
             },
             setChartData: function () {
+                var min = this.getMinPrice(this.yAxisData);
+                console.log(min);
                 this.priceChart.setOption({
-                    xAxis : {
-                        data: this.xAxisData
-                    },
+                    yAxis: [
+                        {
+                            min: min
+                        }
+                    ],
+                    xAxis : [
+                        {
+                            data: this.xAxisData
+                        }
+                    ],
                     series: [
                         {
                             data: this.yAxisData
@@ -84,6 +102,9 @@
             initChart: function () {
                 this.priceChart.setOption({
                     color: ['#6284d3'],
+                    tooltip: {
+                        trigger: 'axis'
+                    },
                     grid: {
                         show: true,
                         left: '10%',
@@ -127,21 +148,28 @@
             query: async function () {
                 this.priceChart.showLoading();
 
-                this.getLineData().then(() => {
-                this.xAxisData = [];
-                this.yAxisData = [];
-                console.log('priceData: '+ this.priceData)
-                if (this.priceData.length > 0) {
-                    for (var index in this.priceData) {
-                        this.xAxisData.push(this.priceData[index].CreateTime);
-                        this.yAxisData.push(this.priceData[index].LowestPrice);
+                ctripapi.getFlightPriceData(this.flightNumber, this.departureDate)
+                .then(data => {
+                    console.log(data.data)
+                    if(data.data.length > 0 && data.isSuccess){
+                        this.xAxisData = [];
+                        this.yAxisData = [];
+                        for (var index in data.data){
+                            this.xAxisData.push(data.data[index].CreateTime);
+                            this.yAxisData.push(data.data[index].LowestPrice);
+                        }
+                    } else {
+                        this.xAxisData = [];
+                        this.yAxisData = [];
                     }
-                }
+                }).then(() => {
+                    this.priceChart.hideLoading();
+                    this.setChartData();
                 });
-
-                
-                this.priceChart.hideLoading();
-                this.setChartData();
+            },
+            getMinPrice: function (arr) {
+                var min = Math.min.apply(null, arr);
+                return parseInt(min / 500) * 500;
             }
         }
     }

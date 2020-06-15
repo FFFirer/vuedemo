@@ -74,7 +74,8 @@
                                 {{ flight.CraftTypeName }}
                             </td>
                             <td>
-                                <router-link to="/ctrip/flightdetail/">查看详情</router-link>
+                                <input type="button" class="btn btn-info" value="查看详情" name="gotoDetail" :data-flightnumber="flight.FlightNumber">
+                                <router-link :to="{path: '/ctrip/flightdetail/', query: {flightnumber: flight.FlightNumber, departuredate: departDate}}">check</router-link>
                             </td>
                         </tr>
                     </tbody>
@@ -115,11 +116,6 @@
                     }
                 });
             }
-        },
-        beforeRouterEnter: function (to, from, next) {
-            console.log(to);
-            console.log(from);
-            console.log(next);
         }
     }
 </script>

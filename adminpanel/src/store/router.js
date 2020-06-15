@@ -24,10 +24,6 @@ const routers = [
     {
         path: '/ctrip/flightdetail',
         component: flightdetail
-    },
-    {
-        path: '/ctrip/flightdetail/:flightnumber/:departuredate',
-        component: flightdetail
     }
 ];
 
