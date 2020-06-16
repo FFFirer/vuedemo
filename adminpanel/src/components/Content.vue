@@ -37,10 +37,10 @@ export default {
         }
     },
     methods: {
-        sidebarCollapse: function(){
+        sidebarCollapse: function() {
             this.$store.commit('sidebarToggleActive');
         },
-        btnClick: function(){
+        btnClick: function() {
             alert(123)
         }
     },
