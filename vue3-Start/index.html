@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue3-Start</title>
+    <script src="./wwwroot/lib/vue.global.js"></script>
+    <style>
+        .demo {
+            font-family: sans-serif;
+            border: 1px solid #eee;
+            border-radius: 2px;
+            padding: 20px 30px;
+            margin-top: 1em;
+            margin-bottom: 40px;
+            user-select: none;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" class="demo">
+        <p>{{ message }}</p>
+        <div>
+            {{ counter }}
+        </div>
+        <button v-on:click="showMessage">Click!</button>
+        <ul>
+            <todo-item></todo-item>
+        </ul>
+        <div>
+            <label for="taskList">Tasks: （组件化构建应用）</label>
+            <ul>
+                <task-item 
+                    v-for="task in tasks"
+                    v-bind:task="task"
+                    v-bind:key="task.id">
+
+                </task-item>
+            </ul>
+        </div>
+    </div>
+    <script>
+        const app =Vue.createApp( {
+            data() {
+                return {
+                    message: "Hello Vue!",
+                    counter: 0,
+                    tasks: [
+                        {id:0,text:'task 1'},
+                        {id:1,text:'task 2'}
+                    ]
+                }
+            },
+            mounted() {
+                setInterval(()=>{
+                    this.counter++
+                }, 1000)
+            },
+            methods: {
+                showMessage() {
+                    alert(this.message);
+                }
+            }
+        })
+        
+        app.component('todo-item', {template: '<li>this is a todo</li>'});
+        app.component('task-item', {props:['task'], template: '<li>{{ task.text }}</li>'})
+        app.mount("#app");
+    </script>
+</body>
+
+</html>
