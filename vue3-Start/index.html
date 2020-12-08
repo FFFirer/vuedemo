@@ -106,7 +106,7 @@
             <select name="select_task" id="select_task" v-model="currentId">
                 <option v-for="item in tasks" :value="item.id">{{ item.text }}</option>
             </select>
-            <task-item :task="currentTask"></task-item>
+            <task-detail :task="currentTask"></task-detail>
         </div>
         <div>
             <p class="title">侦听器</p>
@@ -157,7 +157,7 @@
             </p>
             <button v-for="tab in tabs" :key="tab" :class="['tab-button', {active: currentTab===tab}]"
                 @click="currentTab = tab">{{ tab }}</button>
-            <component class="tab" :is="currentTabComponent"></component>
+            <component class="tab" v-bind:is="currentTabComponent"></component>
         </div>
     </div>
     <script>
@@ -166,6 +166,7 @@
                 return {
                     message: "Hello Vue!",
                     counter: 0,
+                    rawHtml: '<span>This is a Html</span>',
                     tasks: [{
                             id: 2,
                             text: 'task 1'
@@ -182,6 +183,7 @@
                             title: 'blog 2'
                         }
                     ],
+                    url: 'http://www.baidu.com',
                     currentId: 0,
                     question: '',
                     answer: '',
@@ -248,7 +250,7 @@
             mounted() {
                 setInterval(() => {
                     this.counter++
-                }, 1000)
+                }, 1000);
             },
             methods: {
                 showMessage() {
@@ -291,12 +293,7 @@
                 },
                 currentTabComponent() {
                     return "tab-" + this.currentTab.toLowerCase();
-                }
-            },
-            created() {
-                console.log("count is: " + this.counter)
-            },
-            computed: {
+                },
                 publishCounter() {
                     if (this.counter > 100) {
                         return "gt 100";
@@ -304,15 +301,24 @@
                         return "lt & eq 100";
                     }
                 }
+            },
+            created() {
+                console.log("count is: " + this.counter)
             }
         })
 
         app.component('todo-item', {
-            template: '<li>this is a todo</li>'
+            template: `<li>this is a todo</li>`
         });
+
         app.component('task-item', {
             props: ['task'],
-            template: '<li>{{ task.text }}</li>'
+            template: `<li>{{ task.text }}</li>`
+        });
+
+        app.component('task-detail', {
+            props: ['task'],
+            template: `<p>{{ task.text }}</p>`
         });
 
         // 创建一个稍微复杂一点的组件
@@ -324,14 +330,14 @@
             <button @click="$emit('enlarge-text')">Enlarge Text</button>
             <button @click="$emit('reduce-text')">Reduce Text</button>
             `
-        })
+        });
 
         app.component('custom-input', {
             props: ['modelValue'],
             template: `
             <input :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" placeholder="search..."/>
             `
-        })
+        });
 
         // alert
         app.component('alert-box', {
@@ -341,26 +347,26 @@
                 <slot></slot>
             </div>
             `
-        })
+        });
 
         // 动态组件
         app.component('tab-home', {
             template: `
             <div class="demo-tab">Home component</div>
             `
-        })
+        });
 
         app.component('tab-posts', {
             template: `
             <div class="demo-tab">Posts component</div>
             `
-        })
+        });
 
         app.component('tab-archive', {
             template: `
             <div class="demo-tab">Archive component</div>
             `
-        })
+        });
 
         const vm = app.mount("#app");
 
