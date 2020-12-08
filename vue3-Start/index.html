@@ -33,29 +33,46 @@
         <div>
             <label for="taskList">Tasks: （组件化构建应用）</label>
             <ul>
-                <task-item 
-                    v-for="task in tasks"
-                    v-bind:task="task"
-                    v-bind:key="task.id">
-
+                <task-item v-for="task in tasks" v-bind:task="task" v-bind:key="task.id">
                 </task-item>
             </ul>
+            <p>Using mustaches: {{ rawHtml }}</p>
+            <p>Using v-html directive: <span v-html="rawHtml"></span></p>
+        </div>
+        <div>
+            <label>v-bind缩写</label>
+            <a :href="url">v-bind href</a>
+        </div>
+        <div>
+            <label>v-on缩写</label>
+            <button @click="showMessage">v-bind click</button>
+        </div>
+        <div>
+            <label>计算属性</label>
+            <span>{{ publishCounter }}</span>
         </div>
     </div>
     <script>
-        const app =Vue.createApp( {
+        const app = Vue.createApp({
             data() {
                 return {
                     message: "Hello Vue!",
                     counter: 0,
-                    tasks: [
-                        {id:0,text:'task 1'},
-                        {id:1,text:'task 2'}
-                    ]
+                    tasks: [{
+                            id: 0,
+                            text: 'task 1'
+                        },
+                        {
+                            id: 1,
+                            text: 'task 2'
+                        }
+                    ],
+                    rawHtml: "<span style='color:red'>This is a html</span>",
+                    url: "http://www.baidu.com"
                 }
             },
             mounted() {
-                setInterval(()=>{
+                setInterval(() => {
                     this.counter++
                 }, 1000)
             },
@@ -63,11 +80,28 @@
                 showMessage() {
                     alert(this.message);
                 }
+            },
+            created() {
+                console.log("count is: " + this.counter)
+            },
+            computed: {
+                publishCounter() {
+                    if (this.counter > 100) {
+                        return "gt 100";
+                    } else {
+                        return "lt & eq 100";
+                    }
+                }
             }
         })
-        
-        app.component('todo-item', {template: '<li>this is a todo</li>'});
-        app.component('task-item', {props:['task'], template: '<li>{{ task.text }}</li>'})
+
+        app.component('todo-item', {
+            template: '<li>this is a todo</li>'
+        });
+        app.component('task-item', {
+            props: ['task'],
+            template: '<li>{{ task.text }}</li>'
+        })
         app.mount("#app");
     </script>
 </body>
