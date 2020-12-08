@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>组件深入-插槽</title>
+    <script src="./wwwroot/lib/vue.global.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <h1>标签页实战</h1>
+            <p>Current selected tab index: {{ activeKey }}</p>
+            <tabs v-model="activeKey">
+                <tab-panel label="标签一" name="1">
+                    <h1>Tab Content 1</h1>
+                </tab-panel>
+
+                <tab-panel label="标签二" name="2">
+                    <h1>Tab Content 2</h1>
+
+                </tab-panel>
+
+                <tab-panel label="标签三" name="3">
+                    <h1>Tab Content 3</h1>
+
+                </tab-panel>
+            </tabs>
+        </div>
+    </div>
+</body>
+<script>
+    var app = Vue.createApp({
+        data() {
+            return {
+                activeKey: '1'
+            }
+        }
+    });
+
+    // 标签页头
+    app.component('tabs', {
+        name: 'tabs',
+        template: `
+            <div class="tabs" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)">
+                <div class="tabs-bar">
+                    <div v-for="(item, index) in navList" :class="tabCls(item)" @click="handleChange(index)">
+                        {{ item.label }}
+                    </div>
+                </div>    
+                <div class="tabs-content">
+                    <slot></slot>
+                </div>
+            </div>
+        `,
+        props: {
+            value: {
+                type: [String, Number]
+            },
+            modelValue: {
+                type: [String, Number]
+            }
+        },
+        data() {
+            return {
+                currentValue: this.value,
+                navList: []
+            }
+        },
+        methods: {
+            tabCls: function (item) {
+                return [
+                    'tabs-tab',
+                    {
+                        'tabs-tab-active': item.value === this.currentValue
+                    }
+                ]
+            },
+
+            // 点击tab标题时触发
+            handleChange: function (index) {
+                var nav = this.navList[index];
+                var name = nav.name;
+                this.currentValue = name;
+                // 更新value
+                this.$emit('input', name);
+                // 触发自定义事件
+                this.$emit('on-click', name);
+            },
+
+            getTabs: function () {
+                return this.navList;
+            },
+
+            AddPanel: function (el) {
+                console.log("add panel " + el.name);
+                this.navList.push(el);
+            },
+
+            updateNav: function () {
+                // this.navList = [];
+
+                // 设置对this的引用
+                var _this = this;
+                this.getTabs().forEach(function (pane, index) {
+                    _this.navList.push({
+                        label: pane.label,
+                        name: pane.name || index
+                    });
+                    if (!pane.name) {
+                        pane.name = index;
+                    }
+                    if (index === 0) {
+                        if (!_this.currentValue) {
+                            _this.currentValue = pane.name || index;
+                        }
+                    }
+                });
+                this.updateStatus();
+            },
+
+            updateStatus: function () {
+                var tabs = this.getTabs();
+                // 遍历组件，显示选中的内容，隐藏其他
+                var _this = this;
+                tabs.forEach(function (pane) {
+                    return pane.show = (pane.name === _this.currentValue);
+                });
+            }
+        },
+
+        watch: {
+            value: function (val) {
+                this.currentValue = val;
+            },
+            currentValue: function () {
+                this.updateNav();
+            },
+            navList: function () {
+                this.updateNav();
+            }
+        }
+    });
+
+    // 标签页
+    app.component('tab-panel', {
+        name: 'tab-panel',
+        template: `
+            <div class="pane" v-show="show" ref="pref">
+                <slot></slot>
+            </div>`,
+        data() {
+            return {
+                show: true, // 控制这个标签页的显示和隐藏
+                pref: null,
+            }
+        },
+        props: {
+            name: {
+                type: String
+            },
+            label: {
+                type: String,
+                default: ''
+            }
+        },
+        methods: {
+            // label更新时要通知父组件更新
+            updateNav() {
+                this.$parent.updateNav();
+            },
+
+            // 传递自己出去
+            updateTabPanel() {
+                this.$parent.updateTabPanel(this);
+            }
+        },
+        watch: {
+            label() {
+                this.updateNav();
+            }
+        },
+        mounted() {
+            // 初始化时调用一遍
+            this.updateNav();
+            // this.$parent.AddPanel(this);
+        },
+        setup() {
+            pref = Vue.ref(null);
+        }
+    });
+
+    var vm = app.mount("#app");
+</script>
+
+</html>

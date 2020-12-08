@@ -159,6 +159,14 @@
                 @click="currentTab = tab">{{ tab }}</button>
             <component class="tab" v-bind:is="currentTabComponent"></component>
         </div>
+        <div>
+            <p class="titl">动态组件 - 标签页</p>
+            <button v-for="nav in navs" :key="nav" :class="['tab-button', {active: currentNav===nav}]"
+                @click="currentNav = nav">
+                {{ nav }}
+            </button>
+
+        </div>
     </div>
     <script>
         const app = Vue.createApp({
@@ -244,7 +252,13 @@
                             text: '处理边界情况',
                             reference: 'https://vue3js.cn/docs/zh/guide/component-edge-cases.html'
                         },
-                    ]
+                    ],
+                    navs: [
+                        'nav1',
+                        'nav2',
+                        'nav3'
+                    ],
+                    currentNav: 'nav1'
                 }
             },
             mounted() {
