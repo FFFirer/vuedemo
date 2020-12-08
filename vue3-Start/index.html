@@ -17,11 +17,60 @@
             user-select: none;
             overflow-x: auto;
         }
+
+        .title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .demo-alert-box {
+            padding: 10px 20px;
+            background: #f3beb8;
+            border: 1px solid #f09898;
+        }
+
+
+        /* tab 动态组件 */
+        .tab-button {
+            padding: 6px 10px;
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            background: #f0f0f0;
+            margin-bottom: -1px;
+            margin-right: -1px;
+        }
+
+        .tab-button:hover {
+            background: #e0e0e0;
+        }
+
+        .tab-button.active {
+            background: #e0e0e0;
+        }
+
+        .demo-tab {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
     </style>
 </head>
 
 <body>
     <div id="app" class="demo">
+        <div>
+            <ul>
+                <li v-for="link in links">
+                    <a :href="link.url">
+                        {{ link.text }} <span>
+                            <a href="link.reference">&gt;</a>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
         <p>{{ message }}</p>
         <div>
             {{ counter }}
@@ -33,42 +82,263 @@
         <div>
             <label for="taskList">Tasks: （组件化构建应用）</label>
             <ul>
-                <task-item 
-                    v-for="task in tasks"
-                    v-bind:task="task"
-                    v-bind:key="task.id">
+                <task-item v-for="task in tasks" v-bind:task="task" v-bind:key="task.id">
 
                 </task-item>
             </ul>
         </div>
+        <div>
+            <p class="title">计算属性</p>
+            <select name="select_task" id="select_task" v-model="currentId">
+                <option v-for="item in tasks" :value="item.id">{{ item.text }}</option>
+            </select>
+            <task-item :task="currentTask"></task-item>
+        </div>
+        <div>
+            <p class="title">侦听器</p>
+            <input type="text" v-model="question">
+            <p>{{ answer }}</p>
+        </div>
+        <div>
+            <p class="title">表单输入绑定</p>
+            <form action="#">
+                <input type="hidden" name="id" v-model.number="formData.id">
+                <div>
+                    <input type="text" name="name" id="name" v-model="formData.name">
+                </div>
+            </form>
+            <div>
+                <p>表单当前值</p>
+                <p>name: {{ formData.name }}</p>
+            </div>
+        </div>
+        <div>
+            <p class="title">组件基础</p>
+            <p>Current Font Size: {{ postFontSize }} em</p>
+            <div :style="{ fontSize: postFontSize + 'em' }">
+                <blog-post v-for="(b, i) in blogs" :title="b.title" :key="i" @enlarge-text="enlargeText"
+                    @reduce-text="reduceText"></blog-post>
+            </div>
+        </div>
+        <div>
+            <p class="title">在组件上使用v-model <a href="https://vue3js.cn/docs/zh/guide/component-slots.html">自定义事件</a></p>
+            <p>Current search text: {{ searchText }}</p>
+            <div>
+                <custom-input v-model="searchText"></custom-input>
+            </div>
+        </div>
+        <div>
+            <p>学习笔记</p>
+            <p>v-model实现了父组件和子组件的双向数据绑定</p>
+            <p>:model只实现了父组件向子组件传递数据的单向数据绑定，子组件的数据的变化不会反应到原始数据上</p>
+        </div>
+        <div>
+            <p>slot分发数据<a href="https://vue3js.cn/docs/zh/guide/component-slots.html">插槽</a></p>
+            <alert-box>
+                Something bad happened.
+            </alert-box>
+        </div>
+        <div>
+            <p class="title">动态组件 <a href="https://vue3js.cn/docs/zh/guide/components-dynamic-async.html">异步 & 动态组件</a>
+            </p>
+            <button v-for="tab in tabs" :key="tab" :class="['tab-button', {active: currentTab===tab}]"
+                @click="currentTab = tab">{{ tab }}</button>
+            <component class="tab" :is="currentTabComponent"></component>
+        </div>
     </div>
     <script>
-        const app =Vue.createApp( {
+        const app = Vue.createApp({
             data() {
                 return {
                     message: "Hello Vue!",
                     counter: 0,
-                    tasks: [
-                        {id:0,text:'task 1'},
-                        {id:1,text:'task 2'}
+                    tasks: [{
+                            id: 2,
+                            text: 'task 1'
+                        },
+                        {
+                            id: 3,
+                            text: 'task 2'
+                        }
+                    ],
+                    blogs: [{
+                            title: 'blog 1'
+                        },
+                        {
+                            title: 'blog 2'
+                        }
+                    ],
+                    currentId: 0,
+                    question: '',
+                    answer: '',
+                    formData: {
+                        id: 0,
+                        name: 'form test'
+                    },
+                    postFontSize: 1,
+                    searchText: '',
+                    tabs: [
+                        'Home',
+                        'Posts',
+                        'Archive'
+                    ],
+                    currentTab: "Home",
+                    links: [{
+                            url: './registry.html',
+                            text: '组件注册',
+                            reference: 'https://vue3js.cn/docs/zh/guide/component-registration.html'
+                        },
+                        {
+                            url: './props.html',
+                            text: 'Props',
+                            reference: 'https://vue3js.cn/docs/zh/guide/component-props.html'
+                        },
+                        {
+                            url: './non-prop-attr.html',
+                            text: '非Prop的Attribute',
+                            reference: 'https://vue3js.cn/docs/zh/guide/component-attrs.html'
+                        },
+                        {
+                            url: './custom-event.html',
+                            text: '自定义事件',
+                            reference: 'https://vue3js.cn/docs/zh/guide/component-custom-events.html'
+                        },
+                        {
+                            url: './slot.html',
+                            text: '插槽',
+                            reference: 'https://vue3js.cn/docs/zh/guide/component-slots.html'
+                        },
+                        {
+                            url: './ioc-di.html',
+                            text: '提供 / 注入',
+                            reference: 'https://vue3js.cn/docs/zh/guide/component-provide-inject.html'
+                        },
+                        {
+                            url: './dynamic.html',
+                            text: '动态组件 & 异步组件',
+                            reference: 'https://vue3js.cn/docs/zh/guide/component-dynamic-async.html'
+                        },
+                        {
+                            url: './template-reference.html',
+                            text: '模板引用',
+                            reference: 'https://vue3js.cn/docs/zh/guide/component-template-refs.html'
+                        },
+                        {
+                            url: './border.html',
+                            text: '处理边界情况',
+                            reference: 'https://vue3js.cn/docs/zh/guide/component-edge-cases.html'
+                        },
                     ]
                 }
             },
             mounted() {
-                setInterval(()=>{
+                setInterval(() => {
                     this.counter++
                 }, 1000)
             },
             methods: {
                 showMessage() {
                     alert(this.message);
+                },
+                enlargeText() {
+                    (this.postFontSize < 2) ?
+                    this.postFontSize += 0.1:
+                        alert("Cannot enlarge more");
+                },
+                reduceText() {
+                    this.postFontSize > 1 ?
+                        this.postFontSize -= 0.1 : alert("Cannot reduce more");
+                }
+            },
+            watch: {
+                question(newQuestion, oldQuestion) {
+                    if (newQuestion.indexOf('?') > -1) {
+                        this.answer = 'Questions usually contain a question mark. ;-)';
+                    } else {
+                        this.answer = "Enter the question, end with '?'";
+                    }
+                }
+            },
+            computed: {
+                currentTask() {
+                    console.log("current selected: " + this.currentId);
+                    let currentId = this.currentId;
+                    let task = {
+                        id: 0,
+                        text: "None"
+                    };
+                    this.tasks.forEach(function (t) {
+                        if (t.id == currentId) {
+                            task = t;
+                        }
+                    });
+                    console.log("not found");
+                    return task;
+                },
+                currentTabComponent() {
+                    return "tab-" + this.currentTab.toLowerCase();
                 }
             }
         })
-        
-        app.component('todo-item', {template: '<li>this is a todo</li>'});
-        app.component('task-item', {props:['task'], template: '<li>{{ task.text }}</li>'})
-        app.mount("#app");
+
+        app.component('todo-item', {
+            template: '<li>this is a todo</li>'
+        });
+        app.component('task-item', {
+            props: ['task'],
+            template: '<li>{{ task.text }}</li>'
+        });
+
+        // 创建一个稍微复杂一点的组件
+        app.component('blog-post', {
+            props: ['title'],
+            emits: ['enlarge-text', 'reduce-text'],
+            template: `
+            <h4>{{ title }}</h4>
+            <button @click="$emit('enlarge-text')">Enlarge Text</button>
+            <button @click="$emit('reduce-text')">Reduce Text</button>
+            `
+        })
+
+        app.component('custom-input', {
+            props: ['modelValue'],
+            template: `
+            <input :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" placeholder="search..."/>
+            `
+        })
+
+        // alert
+        app.component('alert-box', {
+            template: `
+            <div class="demo-alert-box">
+                <strong>Error!</strong>
+                <slot></slot>
+            </div>
+            `
+        })
+
+        // 动态组件
+        app.component('tab-home', {
+            template: `
+            <div class="demo-tab">Home component</div>
+            `
+        })
+
+        app.component('tab-posts', {
+            template: `
+            <div class="demo-tab">Posts component</div>
+            `
+        })
+
+        app.component('tab-archive', {
+            template: `
+            <div class="demo-tab">Archive component</div>
+            `
+        })
+
+        const vm = app.mount("#app");
+
+        console.log("log data property: " + vm.$data.message);
     </script>
 </body>
 
