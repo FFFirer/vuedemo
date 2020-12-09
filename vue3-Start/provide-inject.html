@@ -34,10 +34,10 @@
         </div>
         <div>
             <h1>标签页</h1>
-            <tabs :value="0">
-                <tab-panel label="标签一" name="tab1">Tab Content 1</tab-panel>
-                <tab-panel label="标签二" name="tab2">Tab Content 2</tab-panel>
-                <tab-panel label="标签三" name="tab3">Tab Content 3</tab-panel>
+            <tabs>
+                <tab-panel label="标签一">Tab Content 1</tab-panel>
+                <tab-panel label="标签二">Tab Content 2</tab-panel>
+                <tab-panel label="标签三">Tab Content 3</tab-panel>
             </tabs>
         </div>
     </div>
@@ -87,7 +87,7 @@
             data() {
                 return {
                     tabList: [],
-                    currentTab: ''
+                    currentTabIndex: 0
                 }
             },
             provide() {
@@ -98,13 +98,13 @@
                         list: _this.tabList
                     }),
                     // 向子组件注入当前选择的name，控制子组件的显示
-                    currentTab: Vue.computed(() => this.currentTab)
+                    currentTab: Vue.computed(() => this.currentTabIndex)
                 }
             },
             template: `
             <div>
                 <div style="border: 1px soild red" class="tab-bar">
-                    <p>这是Tab Header, selected Tab is {{ this.currentTab }}</p>
+                    <p>这是Tab Header, selected Tab is {{ this.currentTabIndex }}</p>
                     <div v-for="(tab, index) in tabList" :key="index" @click="changeTab(index)" :class="getClass(index)">
                         {{ tab.label }}    
                     </div>
@@ -116,27 +116,23 @@
                 getClass: function (index) {
                     return {
                         'tab-header': true,
-                        'tab-header-active': this.currentTab === this.tabList[index].name
+                        'tab-header-active': this.currentTabIndex === index
                     }
                 },
                 changeTab: function (index) {
-                    // console.log("Select tab" + index + ", name: " + this.tabList[index].name + ", label: " +
-                    //     this.tabList[index].label);
-                    this.currentTab = this.tabList[index].name;
+                    this.currentTabIndex = index;
                 }
             },
             mounted() {
-                this.currentTab = this.tabList[0].name;
+                var _this = this;
                 this.tabList.forEach(function (item, index) {
-                    if (!item.name) {
-                        item.name = index;
-                    }
+                    item.show = _this.currentTabIndex === index
                 })
             },
             watch: {
-                currentTab() {
-                    this.tabList.forEach(item => {
-                        item.show = this.currentTab === item.name
+                currentTabIndex() {
+                    this.tabList.forEach((item, index) => {
+                        item.show = this.currentTabIndex === index
                     })
                 }
             }
@@ -167,33 +163,16 @@
                     return this.currentTab.value;
                 }
             },
-            watch: {
-                // parentCurrentTab() {
-                //     this.show = (this.name === this.parentCurrentTab);
-                //     if (this.show) {
-                //         console.log(this.parentCurrentTab);
-                //     }
-                // }
-            },
             inject: ['parentTab', 'currentTab'],
+            mounted() {
+                this.parentTab.list.push(this);
+            },
             template: `
-            <div v-show="show" :ref="setPanelRef">
+            <div v-show="show">
                 <p>This is Tab Content</p>
                 <slot></slot>
             </div>
-            `,
-            mounted() {
-                if (this.name == "") {
-                    this.name = 'tab-' + (this.parentTab.list.length);
-                }
-                this.parentTab.list.push(this);
-                this.show = this.name === this.parentCurrentTab;
-            },
-            methods: {
-                setPanelRef: function (el) {
-                    // this.parentTab.list.push(el);
-                }
-            }
+            `
         })
 
         var vm = app.mount('#app');
