@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>组件深入-提供/注入</title>
+    <script src="./wwwroot/lib/vue.global.js"></script>
+    <style>
+        .tab-header-active {
+            background-color: cadetblue;
+            color: white;
+        }
+
+        .tab-header {
+            display: inline-block;
+            padding: 10px 10px;
+        }
+
+        .tab-bar {
+            border-bottom: 1px solid cadetblue;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <h1>简单的提供/注入</h1>
+            <todo-list>
+                <todo-list-statistics></todo-list-statistics>
+            </todo-list>
+        </div>
+        <div>
+            <h1>标签页</h1>
+            <tabs :value="0">
+                <tab-panel label="标签一" name="tab1">Tab Content 1</tab-panel>
+                <tab-panel label="标签二" name="tab2">Tab Content 2</tab-panel>
+                <tab-panel label="标签三" name="tab3">Tab Content 3</tab-panel>
+            </tabs>
+        </div>
+    </div>
+    <script>
+        const app = Vue.createApp({
+
+        });
+
+        app.component('todo-list', {
+            data() {
+                return {
+                    todos: ['Feed a cat', 'Buy tickets']
+                }
+            },
+            provide() {
+                return {
+                    user: 'John Doe',
+                    todoLength: Vue.computed(() => this.todos.length)
+                }
+            },
+            computed: {
+
+            },
+            methods: {
+                addTodo: function () {
+                    this.todos.push("Todo " + this.todos.length);
+                }
+            },
+            template: `
+                <div>
+                    <button @click="addTodo">Add</button>
+                    {{ todos.length }}
+                    <slot></slot>
+                </div>
+            `
+        })
+
+        app.component('todo-list-statistics', {
+            inject: ['user', 'todoLength'],
+            created() {
+                console.log(`Inject Property: ${this.user}`);
+            },
+            template: `<div><p> statistics</p> user: {{ this.user }} todo count: {{ todoLength.value }}</div>`
+        })
+
+        app.component('tabs', {
+            data() {
+                return {
+                    tabList: [],
+                    currentTab: ''
+                }
+            },
+            provide() {
+                _this = this;
+                return {
+                    // 向子组件注入列表，子组件在加载的时候加载自身
+                    parentTab: Vue.reactive({
+                        list: _this.tabList
+                    }),
+                    // 向子组件注入当前选择的name，控制子组件的显示
+                    currentTab: Vue.computed(() => this.currentTab)
+                }
+            },
+            template: `
+            <div>
+                <div style="border: 1px soild red" class="tab-bar">
+                    <p>这是Tab Header, selected Tab is {{ this.currentTab }}</p>
+                    <div v-for="(tab, index) in tabList" :key="index" @click="changeTab(index)" :class="getClass(index)">
+                        {{ tab.label }}    
+                    </div>
+                </div>
+                <slot></slot>
+            </div>
+            `,
+            methods: {
+                getClass: function (index) {
+                    return {
+                        'tab-header': true,
+                        'tab-header-active': this.currentTab === this.tabList[index].name
+                    }
+                },
+                changeTab: function (index) {
+                    // console.log("Select tab" + index + ", name: " + this.tabList[index].name + ", label: " +
+                    //     this.tabList[index].label);
+                    this.currentTab = this.tabList[index].name;
+                }
+            },
+            mounted() {
+                this.currentTab = this.tabList[0].name;
+                this.tabList.forEach(function (item, index) {
+                    if (!item.name) {
+                        item.name = index;
+                    }
+                })
+            },
+            watch: {
+                currentTab() {
+                    this.tabList.forEach(item => {
+                        item.show = this.currentTab === item.name
+                    })
+                }
+            }
+        })
+
+        app.component('tab-panel', {
+            data() {
+                return {
+                    show: false,
+                }
+            },
+            props: {
+                label: {
+                    type: String,
+                    default: function () {
+                        return "";
+                    }
+                },
+                name: {
+                    type: [String, Number],
+                    default: function () {
+                        return "";
+                    }
+                }
+            },
+            computed: {
+                parentCurrentTab() {
+                    return this.currentTab.value;
+                }
+            },
+            watch: {
+                // parentCurrentTab() {
+                //     this.show = (this.name === this.parentCurrentTab);
+                //     if (this.show) {
+                //         console.log(this.parentCurrentTab);
+                //     }
+                // }
+            },
+            inject: ['parentTab', 'currentTab'],
+            template: `
+            <div v-show="show" :ref="setPanelRef">
+                <p>This is Tab Content</p>
+                <slot></slot>
+            </div>
+            `,
+            mounted() {
+                if (this.name == "") {
+                    this.name = 'tab-' + (this.parentTab.list.length);
+                }
+                this.parentTab.list.push(this);
+                this.show = this.name === this.parentCurrentTab;
+            },
+            methods: {
+                setPanelRef: function (el) {
+                    // this.parentTab.list.push(el);
+                }
+            }
+        })
+
+        var vm = app.mount('#app');
+    </script>
+</body>
+
+</html>
