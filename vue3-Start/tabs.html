@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>标签页 - 模板</title>
+</head>
+<style>
+    .tab-header-active {
+        background-color: cadetblue;
+        color: white;
+    }
+
+    .tab-header {
+        display: inline-block;
+        padding: 10px 10px;
+    }
+
+    .tab-bar {
+        border-bottom: 1px solid cadetblue;
+        cursor: pointer;
+    }
+
+    .tab-bar-vertical {
+        display: flex;
+        min-height: calc(100vh - 18px);
+    }
+
+    .tab-bar-vertical .tab-bar {
+        display: inline;
+        width: 20%;
+        border-bottom: none;
+        border-right: 1px solid cadetblue;
+    }
+
+    .tab-bar-vertical .tab-bar .tab-header {
+        display: inline-block;
+        width: calc(100% - 20px);
+    }
+
+    .tab-bar-vertical .tab-bar+div:not(.tab-bar) {
+        display: inline;
+        padding: 5px;
+    }
+</style>
+
+<body>
+    <div class="tab-bar-vertical">
+        <div class="tab-bar">
+            <div class="tab-header tab-header-active">Header 1</div>
+            <div class="tab-header">Header 2</div>
+            <div class="tab-header">Header 2</div>
+            <div class="tab-header">Header 2</div>
+            <div class="tab-header">Header 2</div>
+            <div class="tab-header">Header 2</div>
+            <div class="tab-header">Header 2</div>
+            <div class="tab-header">Header 2</div>
+            <div class="tab-header">Header 2</div>
+            <div class="tab-header">Header 2</div>
+            <div class="tab-header">Header 2</div>
+        </div>
+        <div>
+            Content
+        </div>
+    </div>
+
+</body>
+
+</html>

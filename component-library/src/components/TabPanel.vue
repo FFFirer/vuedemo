@@ -1,5 +1,5 @@
 <template>
-  <div v-show="show">
+  <div v-show="show" :id="`tab-panel-${index}`">
     <slot></slot>
   </div>
 </template>
@@ -33,14 +33,16 @@ export default defineComponent({
     },
   },
   setup(props: TabPanelProps) {
-    // console.log(props.label);
-    // console.log(props.name);
+    console.log(JSON.stringify(props));
+
+    // eslint-disable-next-line prettier/prettier
     const index = ref<string>();
     const RootTabs = inject<RootTabs>("RootTabs");
     const updatePanelStates = inject<UpdatePanelStatesCallback>(
       "updatePanelStates"
     );
     const instance = getCurrentInstance();
+    console.log(index.value);
     const panelName = computed((): string => {
       return props.name || (index.value as string);
     });

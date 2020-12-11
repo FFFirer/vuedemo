@@ -14,7 +14,7 @@
   </div>
 </template>
 
-<style scoped>
+<style>
 .tab-header-active {
   background-color: cadetblue;
   color: white;
@@ -40,7 +40,7 @@ import {
   provide,
   Ref,
   ref,
-  watch,
+  watch
 } from "vue";
 
 export interface TabPanelProps {
@@ -53,7 +53,7 @@ export interface TabPanel {
   props: TabPanelProps;
   instance: ComponentInternalInstance;
   panelName: ComputedRef<string>;
-  index: ComputedRef<string>;
+  index: Ref<string>;
 }
 
 export interface TabsProps {
@@ -73,12 +73,12 @@ export default defineComponent({
   props: {
     activeTabName: {
       type: String,
-      default: "",
+      default: ""
     },
     modelValue: {
       type: String,
-      default: "",
-    },
+      default: ""
+    }
   },
   emits: ["update:modelValue"],
   methods: {
@@ -86,9 +86,9 @@ export default defineComponent({
       console.log("getClass: " + name + " currentName:" + this.currentName);
       return {
         "tab-header": true,
-        "tab-header-active": this.currentName === name,
+        "tab-header-active": this.currentName === name
       };
-    },
+    }
   },
   setup(props: TabsProps, context) {
     const currentName = ref(props.modelValue || props.activeTabName || "0");
@@ -98,14 +98,25 @@ export default defineComponent({
 
     provide<RootTabs>("RootTabs", {
       props,
-      currentName,
+      currentName
     });
 
     provide<UpdatePanelStatesCallback>(
       "updatePanelStates",
       (panel: TabPanel) => {
-        console.log("updatePanel: " + JSON.stringify(panel.props));
-        tabList.value.push(panel.props);
+        console.log(
+          "updatePanel, props: " +
+            JSON.stringify(panel.props) +
+            "index: " +
+            panel.index.value
+        );
+        // 加入list的时候判断index并赋值
+        panel.index.value = (tabList.value.length + 1).toString();
+        // 重新赋值TabPanelProps
+        tabList.value.push({
+          label: panel.props.label,
+          name: panel.panelName.value
+        } as TabPanelProps);
       }
     );
 
@@ -196,8 +207,8 @@ export default defineComponent({
       currentName,
       panels,
       changeTab,
-      tabList,
+      tabList
     };
-  },
+  }
 });
 </script>
