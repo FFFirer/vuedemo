@@ -26,8 +26,6 @@
     </Tabs>
   </div>
 </template>
-<style scoped>
-</style>
 <script>
 import { defineComponent } from "vue";
 import Tabs from "@/components/Tabs.vue";

@@ -22,7 +22,19 @@ import {
 
 export default defineComponent({
   name: "TabPanel",
+  props: {
+    label: {
+      type: String,
+      default: "",
+    },
+    name: {
+      type: String,
+      default: "",
+    },
+  },
   setup(props: TabPanelProps) {
+    // console.log(props.label);
+    // console.log(props.name);
     const index = ref<string>();
     const RootTabs = inject<RootTabs>("RootTabs");
     const updatePanelStates = inject<UpdatePanelStatesCallback>(

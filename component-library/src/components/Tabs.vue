@@ -4,13 +4,13 @@
       <div
         v-for="(tab, index) in tabList"
         :key="index"
-        @click="changeTab(name)"
-        :class="getClass(name)"
+        @click="changeTab(tab.name)"
+        :class="getClass(tab.name)"
       >
         {{ tab.label }}
       </div>
-      <slot></slot>
     </div>
+    <slot></slot>
   </div>
 </template>
 
@@ -36,6 +36,7 @@ import {
   ComponentInternalInstance,
   ComputedRef,
   defineComponent,
+  onMounted,
   provide,
   Ref,
   ref,
@@ -82,6 +83,7 @@ export default defineComponent({
   emits: ["update:modelValue"],
   methods: {
     getClass: function(name: string) {
+      console.log("getClass: " + name + " currentName:" + this.currentName);
       return {
         "tab-header": true,
         "tab-header-active": this.currentName === name,
@@ -92,7 +94,7 @@ export default defineComponent({
     const currentName = ref(props.modelValue || props.activeTabName || "0");
     const panels = ref([]);
     // const instance = getCurrentInstance();
-    const tabList = [];
+    const tabList = ref<TabPanelProps[]>([]);
 
     provide<RootTabs>("RootTabs", {
       props,
@@ -102,7 +104,8 @@ export default defineComponent({
     provide<UpdatePanelStatesCallback>(
       "updatePanelStates",
       (panel: TabPanel) => {
-        tabList.push(panel.props);
+        console.log("updatePanel: " + JSON.stringify(panel.props));
+        tabList.value.push(panel.props);
       }
     );
 
@@ -124,6 +127,7 @@ export default defineComponent({
 
     const changeTab = (name: string) => {
       currentName.value = name;
+      console.log("changeTab to " + name);
       context.emit("update:modelValue", name);
     };
 
@@ -132,6 +136,7 @@ export default defineComponent({
       // eslint-disable-next-line prettier/prettier
       (modelValue) => {
         changeTab(modelValue);
+        console.log("activeTabName changed: (new) " + props.activeTabName);
       }
     );
 
@@ -140,9 +145,13 @@ export default defineComponent({
       // eslint-disable-next-line prettier/prettier
       (modelValue) => {
         changeTab(modelValue);
+        console.log("modelValue changed: (new) " + props.modelValue);
       }
     );
 
+    onMounted(() => {
+      currentName.value = tabList.value[0].name;
+    });
     // 设置panels，确定tab-panels有哪些
     // const setPanelInstance = () => {
     //   if (context.slots.default) {
@@ -187,6 +196,7 @@ export default defineComponent({
       currentName,
       panels,
       changeTab,
+      tabList,
     };
   },
 });
