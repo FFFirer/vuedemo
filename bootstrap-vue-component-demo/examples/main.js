@@ -6,4 +6,6 @@ import {
     datePicker
 } from '../packages/index'
 
-createApp(App).use(datePicker).mount('#app')
+var app = createApp(App).use(datePicker)
+app.config.productionTip = false
+app.mount('#app')

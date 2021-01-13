@@ -1,4 +1,4 @@
-import datePicker from './date-picker/index'
+import datePicker from './datePicker/index'
 
 const components = {
     datePicker
