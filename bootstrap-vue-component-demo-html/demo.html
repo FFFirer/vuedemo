@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <meta charset="utf-8">
+    <title>bootstrap-vue-component-demo demo</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue/3.0.2/vue.global.js"></script>
+    <script src="./bootstrap-vue-component-demo.umd.js"></script>
+    <!-- <script src="./bootstrap-vue-component-demo.common.js"></script> -->
+
+
+    <link rel="stylesheet" href="./bootstrap-vue-component-demo.css">
+</head>
+
+<body>
+    <div id="app">
+        <b-4-dropdown :data="demoDropdownList" btnClass="btn-outline-primary btn-lg" label="下拉菜单"></b-4-dropdown>
+
+    </div>
+</body>
+
+</html>
+
+
+<script>
+    // console.log(bootstrap - vue - component - demo)
+    const app = {
+        data: function () {
+            return {
+                demoDropdownList: [{
+                        label: "test A",
+                        value: 1,
+                        href: "#"
+                    },
+                    {
+                        label: "test B",
+                        value: 2,
+                        href: "#"
+                    }
+                ]
+            };
+        }
+    };
+
+    Vue.createApp(app).mount("#app");
+</script>

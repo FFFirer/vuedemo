@@ -2,6 +2,7 @@ const path = require('path')
 const {
     config
 } = require('process')
+const webpack = require('webpack')
 
 const resolve = dir => path.join(__dirname, dir)
 
@@ -25,5 +26,15 @@ module.exports = {
             .tap(option => {
                 return option
             })
+    },
+
+    configureWebpack: {
+        plugins: [
+            new webpack.ProvidePlugin({
+                $: 'jquery',
+                jQuery: 'jquery',
+                'windows.jQuery': 'jquery'
+            })
+        ]
     }
 }

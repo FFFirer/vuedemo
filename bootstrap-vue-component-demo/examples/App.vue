@@ -1,17 +1,17 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Welcome to Your Vue.js App" />
-  <date-picker></date-picker>
+  <router-link to="/">Hello World</router-link>
+  <router-link to="/demo">Demo</router-link>
+  <router-link to="/demo/drop-down">Dropdown Demo</router-link>
+  <router-view></router-view>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
-
 export default {
   name: "App",
-  components: {
-    HelloWorld
-  }
+  components: {},
+
+  HelloWorlddata: function() {}
 };
 </script>
 

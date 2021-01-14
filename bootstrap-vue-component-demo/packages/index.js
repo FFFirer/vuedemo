@@ -1,8 +1,17 @@
+import 'bootstrap/dist/css/bootstrap.css'
+import 'jquery/dist/jquery.js'
+import 'bootstrap/dist/js/bootstrap.js'
 import datePicker from './datePicker/index'
+import b4Dropdown, {
+    b4DropdownOption
+} from './b4Dropdown/index'
 
-const components = {
-    datePicker
-}
+const components = [
+
+    datePicker,
+    b4Dropdown,
+    b4DropdownOption
+]
 
 const install = function (Vue) {
     components.forEach(component => {
@@ -16,5 +25,7 @@ if (typeof window != 'undefined' && window.Vue) {
 
 export {
     install,
-    datePicker
+    datePicker,
+    b4Dropdown,
+    b4DropdownOption
 }
