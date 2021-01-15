@@ -3,10 +3,8 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "datePicker"
-};
+});
 </script>
-
-<style lang="scss">
-</style>

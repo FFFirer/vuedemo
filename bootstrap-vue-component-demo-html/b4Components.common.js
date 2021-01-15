@@ -1,14 +1,5 @@
-(function webpackUniversalModuleDefinition(root, factory) {
-	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("vue"));
-	else if(typeof define === 'function' && define.amd)
-		define([], factory);
-	else if(typeof exports === 'object')
-		exports["bootstrap-vue-component-demo"] = factory(require("vue"));
-	else
-		root["bootstrap-vue-component-demo"] = factory(root["Vue"]);
-})((typeof self !== 'undefined' ? self : this), function(__WEBPACK_EXTERNAL_MODULE__8bbf__) {
-return /******/ (function(modules) { // webpackBootstrap
+module.exports =
+/******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
@@ -16159,7 +16150,7 @@ module.exports = store.inspectSource;
 /***/ "8bbf":
 /***/ (function(module, exports) {
 
-module.exports = __WEBPACK_EXTERNAL_MODULE__8bbf__;
+module.exports = require("vue");
 
 /***/ }),
 
@@ -19410,18 +19401,19 @@ var js_bootstrap = __webpack_require__("4989");
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/vue-loader-v16/dist/templateLoader.js??ref--5!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./packages/datePicker/src/datePicker.vue?vue&type=template&id=3471b21a
+// CONCATENATED MODULE: ./node_modules/vue-loader-v16/dist/templateLoader.js??ref--5!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./packages/datePicker/src/datePicker.vue?vue&type=template&id=541f26ce
 
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", null, "这是一个datePicker组件！"))
 }
-// CONCATENATED MODULE: ./packages/datePicker/src/datePicker.vue?vue&type=template&id=3471b21a
+// CONCATENATED MODULE: ./packages/datePicker/src/datePicker.vue?vue&type=template&id=541f26ce
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./packages/datePicker/src/datePicker.vue?vue&type=script&lang=js
-/* harmony default export */ var datePickervue_type_script_lang_js = ({
+
+/* harmony default export */ var datePickervue_type_script_lang_js = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   name: "datePicker"
-});
+}));
 // CONCATENATED MODULE: ./packages/datePicker/src/datePicker.vue?vue&type=script&lang=js
  
 // CONCATENATED MODULE: ./packages/datePicker/src/datePicker.vue
@@ -19441,25 +19433,25 @@ datePicker.install = function (Vue) {
 };
 
 /* harmony default export */ var packages_datePicker = (datePicker);
-// CONCATENATED MODULE: ./node_modules/vue-loader-v16/dist/templateLoader.js??ref--5!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./packages/b4Dropdown/src/b4Dropdown.vue?vue&type=template&id=64b17e04
+// CONCATENATED MODULE: ./node_modules/vue-loader-v16/dist/templateLoader.js??ref--5!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./packages/b4Dropdown/src/b4Dropdown.vue?vue&type=template&id=097e5dfe
 
 
 const _hoisted_1 = { class: "dropdown-menu" }
 
-function b4Dropdownvue_type_template_id_64b17e04_render(_ctx, _cache, $props, $setup, $data, $options) {
+function b4Dropdownvue_type_template_id_097e5dfe_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_b_4_dropdown_option = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("b-4-dropdown-option")
 
   return (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("div", {
     class: "dropdown",
-    id: $props.id
+    id: _ctx.id
   }, [
     Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("button", {
       type: "button",
-      class: [`btn`, `dropdown-toggle`, $props.btnClass],
+      class: [`btn`, `dropdown-toggle`, _ctx.btnClass],
       "data-toggle": "dropdown"
-    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($props.label), 3),
+    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.label), 3),
     Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])("div", _hoisted_1, [
-      (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])($props.data, (d, index) => {
+      (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.data, (d, index) => {
         return (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_b_4_dropdown_option, {
           key: index,
           label: d.label,
@@ -19471,51 +19463,53 @@ function b4Dropdownvue_type_template_id_64b17e04_render(_ctx, _cache, $props, $s
     ])
   ], 8, ["id"]))
 }
-// CONCATENATED MODULE: ./packages/b4Dropdown/src/b4Dropdown.vue?vue&type=template&id=64b17e04
+// CONCATENATED MODULE: ./packages/b4Dropdown/src/b4Dropdown.vue?vue&type=template&id=097e5dfe
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./packages/b4Dropdown/src/b4Dropdown.vue?vue&type=script&lang=js
-/* harmony default export */ var b4Dropdownvue_type_script_lang_js = ({
+
+/* harmony default export */ var b4Dropdownvue_type_script_lang_js = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   name: "b4Dropdown",
   props: ["label", "id", "data", "btnClass"],
   data: function data() {
     return {};
   }
-});
+}));
 // CONCATENATED MODULE: ./packages/b4Dropdown/src/b4Dropdown.vue?vue&type=script&lang=js
  
 // CONCATENATED MODULE: ./packages/b4Dropdown/src/b4Dropdown.vue
 
 
 
-b4Dropdownvue_type_script_lang_js.render = b4Dropdownvue_type_template_id_64b17e04_render
+b4Dropdownvue_type_script_lang_js.render = b4Dropdownvue_type_template_id_097e5dfe_render
 
 /* harmony default export */ var b4Dropdown = (b4Dropdownvue_type_script_lang_js);
-// CONCATENATED MODULE: ./node_modules/vue-loader-v16/dist/templateLoader.js??ref--5!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./packages/b4Dropdown/src/b4DropdownOption.vue?vue&type=template&id=7e413298
+// CONCATENATED MODULE: ./node_modules/vue-loader-v16/dist/templateLoader.js??ref--5!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./packages/b4Dropdown/src/b4DropdownOption.vue?vue&type=template&id=07e5bb3f
 
 
-function b4DropdownOptionvue_type_template_id_7e413298_render(_ctx, _cache, $props, $setup, $data, $options) {
+function b4DropdownOptionvue_type_template_id_07e5bb3f_render(_ctx, _cache, $props, $setup, $data, $options) {
   return (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])("a", {
-    href: $props.link,
-    "data-v": $props.value,
-    "data-id": `b4-select-option-${$props.index}`,
+    href: _ctx.link,
+    "data-v": _ctx.value,
+    "data-id": `b4-select-option-${_ctx.index}`,
     class: "dropdown-item"
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])($props.label), 9, ["href", "data-v", "data-id"]))
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.label), 9, ["href", "data-v", "data-id"]))
 }
-// CONCATENATED MODULE: ./packages/b4Dropdown/src/b4DropdownOption.vue?vue&type=template&id=7e413298
+// CONCATENATED MODULE: ./packages/b4Dropdown/src/b4DropdownOption.vue?vue&type=template&id=07e5bb3f
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./packages/b4Dropdown/src/b4DropdownOption.vue?vue&type=script&lang=js
-/* harmony default export */ var b4DropdownOptionvue_type_script_lang_js = ({
+
+/* harmony default export */ var b4DropdownOptionvue_type_script_lang_js = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   name: "b4DropdownOption",
   props: ["link", "label", "value", "index"],
   methods: {}
-});
+}));
 // CONCATENATED MODULE: ./packages/b4Dropdown/src/b4DropdownOption.vue?vue&type=script&lang=js
  
 // CONCATENATED MODULE: ./packages/b4Dropdown/src/b4DropdownOption.vue
 
 
 
-b4DropdownOptionvue_type_script_lang_js.render = b4DropdownOptionvue_type_template_id_7e413298_render
+b4DropdownOptionvue_type_script_lang_js.render = b4DropdownOptionvue_type_template_id_07e5bb3f_render
 
 /* harmony default export */ var b4DropdownOption = (b4DropdownOptionvue_type_script_lang_js);
 // CONCATENATED MODULE: ./packages/b4Dropdown/index.js
@@ -19546,16 +19540,32 @@ b4DropdownOption.install = function (Vue) {
 
 
 
-var components = [packages_datePicker, packages_b4Dropdown, b4DropdownOption];
+var components = [packages_datePicker, packages_b4Dropdown, b4DropdownOption]; // Vue2
+// const install = function (Vue) {
+//     components.forEach(component => {
+//         Vue.component(component.name, component);
+//     });
+// }
 
 var install = function install(Vue) {
   components.forEach(function (component) {
     Vue.component(component.name, component);
   });
-};
+}; // Vue2
+// if (typeof window != 'undefined' && window.Vue) {
+//     console.log('install component');
+//     install(window.Vue);
+// }
+// Vue3
+
 
 if (typeof window != 'undefined' && window.Vue) {
-  install(window.Vue);
+  window.b4Components = {
+    install: install,
+    datePicker: packages_datePicker,
+    b4Dropdown: packages_b4Dropdown,
+    b4DropdownOption: b4DropdownOption
+  };
 }
 
 
@@ -19637,5 +19647,4 @@ module.exports = NATIVE_SYMBOL
 /***/ })
 
 /******/ });
-});
-//# sourceMappingURL=bootstrap-vue-component-demo.umd.js.map
+//# sourceMappingURL=b4Components.common.js.map

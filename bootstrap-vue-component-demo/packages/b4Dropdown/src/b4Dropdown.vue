@@ -22,13 +22,14 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "b4Dropdown",
   props: ["label", "id", "data", "btnClass"],
   data: function() {
     return {};
   }
-};
+});
 </script>
 
 <style></style>

@@ -7,27 +7,22 @@
     <title>Document</title>
     <meta charset="utf-8">
     <title>bootstrap-vue-component-demo demo</title>
-    <script src="https://cdn.bootcdn.net/ajax/libs/vue/3.0.2/vue.global.js"></script>
-    <script src="./bootstrap-vue-component-demo.umd.js"></script>
-    <!-- <script src="./bootstrap-vue-component-demo.common.js"></script> -->
-
-
-    <link rel="stylesheet" href="./bootstrap-vue-component-demo.css">
+    <link rel="stylesheet" href="./b4Components.css">
+    <link rel="stylesheet" href="https://unpkg.com/element-plus/lib/theme-chalk/index.css">
 </head>
 
 <body>
     <div id="app">
-        <b-4-dropdown :data="demoDropdownList" btnClass="btn-outline-primary btn-lg" label="下拉菜单"></b-4-dropdown>
-
+        <date-picker></date-picker>
     </div>
 </body>
 
 </html>
 
-
+<script src="https://unpkg.com/vue@next"></script>
+<script src="./b4Components.umd.js"></script>
 <script>
-    // console.log(bootstrap - vue - component - demo)
-    const app = {
+    const app = Vue.createApp({
         data: function () {
             return {
                 demoDropdownList: [{
@@ -43,7 +38,7 @@
                 ]
             };
         }
-    };
-
-    Vue.createApp(app).mount("#app");
+    });
+    app.use(b4Components);
+    app.mount("#app");
 </script>

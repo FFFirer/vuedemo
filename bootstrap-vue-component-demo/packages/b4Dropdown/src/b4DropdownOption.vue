@@ -9,11 +9,12 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "b4DropdownOption",
   props: ["link", "label", "value", "index"],
   methods: {}
-};
+});
 </script>
 
 <style lang="scss"></style>
